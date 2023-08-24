@@ -308,7 +308,7 @@ export default function Week2Component() {
                         {(memos.map((memo, idx) => {
                             return (
                                 <div key={idx} className="bg-white p-4 rounded mb-2">
-                                    <p className="text-gray-600">"{memo.message}"</p>
+                                    <p className="text-gray-600">{memo.message}</p>
                                     <p className="text-yellow-600">
                                         {memo.name} at {memo.timestamp.toString()}
                                     </p>
