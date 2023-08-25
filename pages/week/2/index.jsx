@@ -49,11 +49,12 @@ export default function Week2Component() {
     // Wallet connection logic
     const isWalletConnected = async () => {
         try {
-            if (address.length > 0) {
+            if(!isDisconnected){
                 setCurrentAccount(address);
-                setcurrentChain(chain.id);
-                ensureOnNetwork();
+            } else {
+                setCurrentAccount(null);
             }
+            console.log(currentAccount);
         } catch (error) {
             console.log("error: ", error);
         }
@@ -66,14 +67,6 @@ export default function Week2Component() {
             }
         } catch (error) {
             console.log("error: ", error);
-        }
-    }
-
-    const connectWallet = async () => {
-        try {
-            setCurrentAccount(address);
-        } catch (error) {
-            console.log(error);
         }
     }
 
@@ -225,11 +218,11 @@ export default function Week2Component() {
     return (
         <div className="min-h-screen">
             <Head>
-                <title>Road to Web3 - Week2</title>
+                <title>Road to Web3 - Week 2</title>
                 <meta name="description" content="Tipping site" />
             </Head>
 
-            <main className="max-w-6xl mx-auto px-6 py-12 md:p-20">
+            <main className="max-w-6xl mx-auto px-6 py-12 md:p-10">
                 <h1 className="text-5xl font-bold text-center text-yellow-900">Road to Web3 - Week2</h1>
                 <p className="text-center mt-4 text-lg max-w-xl mx-auto text-yellow-700">
                     This is a practice project to learn Web3.js and solidity. Second week is to develop a &quot;Buy Me a
@@ -245,7 +238,7 @@ export default function Week2Component() {
                     </a>
                 </p>
 
-                {currentAccount ? (
+                {!isDisconnected ? (
                     <div>
                         <form>
                             <div>
@@ -279,20 +272,18 @@ export default function Week2Component() {
                                 >
                                 </textarea>
                             </div>
-                            <div>
+                            <div className="flex flex-col items-center text-center">
                                 <button
                                     type="button"
                                     onClick={buyCoffee}
-                                    className="py-2 px-5 mt-6 mb-2 pb-3 w-full bg-yellow-900 hover:bg-yellow-800 shadow rounded-full text-white text-2xl"
+                                    className="py-2 px-5 mt-3 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white"
                                 >
                                     Send 1 Coffee for 0.001 ETH
                                 </button>
-                            </div>
-                            <div>
                                 <button
                                     type="button"
                                     onClick={buyLargeCoffee}
-                                    className="py-2 px-5 mt-6 mb-2 pb-3 w-full bg-yellow-900 hover:bg-yellow-800 shadow rounded-full text-white text-2xl"
+                                    className="py-2 px-5 mt-3 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white"
                                 >
                                     Send 1 Large Coffee for 0.003 ETH
                                 </button>
@@ -300,7 +291,11 @@ export default function Week2Component() {
                         </form>
                     </div>
                 ) : (
-                    <button onClick={connectWallet}> Connect your wallet </button>
+                    <div className="text-center mt-12">
+                        <h3 className="text-white text-xl">
+                            Connect Your Wallet
+                        </h3>
+                    </div>
                 )}
                 <div className="self-start w-full mt-6 md:mt-3 md:w-1/2 md:m-3 bg-yellow-100 rounded-xl overflow-hidden">
                     <h4 className="text-2xl text-center bg-yellow-700 p-2 text-white">Messages</h4>
