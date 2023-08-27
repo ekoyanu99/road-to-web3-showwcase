@@ -9,7 +9,7 @@ import {
 } from "wagmi/chains";
 import Image from "next/image";
 
-export default function Week2Component() {
+export default function Week1Component() {
 
     // Contract Address & ABI
     const contractAddress = "0xF3B59e1ce0Ce472daA264894F2372AaAAC25F411";
@@ -80,7 +80,7 @@ export default function Week2Component() {
             </Head>
 
             <main className="max-w-6xl mx-auto px-6 py-12 md:p-10">
-                <h1 className="text-5xl font-bold text-center text-yellow-900">Road to Web3 - Week1</h1>
+                <h1 className="text-5xl font-bold text-center text-yellow-900">Road to Web3 - Week1 [Goerli]</h1>
                 <p className="text-center mt-4 text-lg max-w-xl mx-auto text-yellow-700">
                     This is a practice project to learn Web3.js and solidity. First week is to develop a &quot;ERC721&quot; smart contract.
                     <br />

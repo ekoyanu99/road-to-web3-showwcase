@@ -7,7 +7,6 @@ import {
 	goerli,
 	polygonMumbai,
 } from "wagmi/chains";
-import { alchemyProvider } from "wagmi/providers/alchemy";
 import { publicProvider } from "wagmi/providers/public";
 import MainLayout from "../layout/mainLayout";
 

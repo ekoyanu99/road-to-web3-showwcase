@@ -223,7 +223,7 @@ export default function Week2Component() {
             </Head>
 
             <main className="max-w-6xl mx-auto px-6 py-12 md:p-10">
-                <h1 className="text-5xl font-bold text-center text-yellow-900">Road to Web3 - Week2</h1>
+                <h1 className="text-5xl font-bold text-center text-yellow-900">Road to Web3 - Week2 [Goerli]</h1>
                 <p className="text-center mt-4 text-lg max-w-xl mx-auto text-yellow-700">
                     This is a practice project to learn Web3.js and solidity. Second week is to develop a &quot;Buy Me a
                     Coffee&quot; smart contract.
