@@ -200,8 +200,8 @@ export default function Week3Component() {
             </Head>
 
             <main className="max-w-6xl mx-auto px-6 py-12 md:p-10">
-                <h1 className="text-5xl font-bold text-center text-yellow-900">Road to Web3 - Week 3 [Mumbai]</h1>
-                <p className="text-center mt-4 text-lg max-w-xl mx-auto text-yellow-700">
+                <h1 className="text-5xl font-bold text-center text-purple-600">Road to Web3 - Week 3 [Mumbai]</h1>
+                <p className="text-center mt-4 text-lg max-w-xl mx-auto text-purple-400">
                     This is a practice project to learn solidity and ethers.js. Third week is to develop a &quot;Battle Chains
                     (NFT metadata on-chain)&quot; smart contract.
                     <br />
@@ -209,7 +209,7 @@ export default function Week3Component() {
                         href="https://docs.alchemy.com/alchemy/road-to-web3/weekly-learning-challenges/3.-how-to-make-nfts-with-on-chain-metadata-hardhat-and-javascript"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-block bg-yellow-500 rounded-md text-white mt-2 p-1 px-2 hover:bg-yellow-600"
+                        className="inline-block bg-purple-500 rounded-md text-white mt-2 p-1 px-2 hover:bg-purple-600"
                     >
                         ➡️ Amazing tutorial here
                     </a>
