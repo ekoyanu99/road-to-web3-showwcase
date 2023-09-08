@@ -46,8 +46,13 @@ export default function Week3Component() {
 
     useEffect(() => {
         checkIfWalletConnected();
-        fetchCharNFT();
     }, [address]);
+
+    useEffect(() => {
+        if (signer) {
+            fetchCharNFT();
+        }
+    }, [signer]);
 
     const checkIfWalletConnected = async () => {
         try {
@@ -243,23 +248,25 @@ export default function Week3Component() {
                 }
 
                 {isInitialized && currentAccount && ownedChar && (
-                    <div className="flex flex-wrap md:flex-nowrap mt-16 p-4 bg-white rounded-xl shadow-lg">
-                        <div className="w-full md:w-1/2 md:m-3">
+                    <div className="flex w-full justify-center items-center flex-wrap md:flex-nowrap mt-16 p-4 bg-white rounded-xl shadow-lg">
+                        <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
                             {ownedCharSvg && (
                                 <>
-                                    <img src={ownedCharSvg} className="w-full" />
-                                    <div className="text-center mt-4">
-                                        <a
-                                            href={`https://testnets.opensea.io/assets/mumbai/${contractAddress}/${charInfo.id}`}
-                                            className="text-blue-500 hover:text-blue-700 text-lg"
-                                            target="_blank"
-                                            rel="noreferrer"
-                                        >
-                                            View on OpenSea
-                                        </a>
-                                        <p className="text-gray-500 text-sm mt-1">
-                                            Remember to click <strong>Refresh metadata</strong> if the info is not updating.
-                                        </p>
+                                    <div className="flex flex-1 justify-start items-start flex-col mf:mr-10">
+                                        <img src={ownedCharSvg} className="w-full" />
+                                        <div className="text-center mt-4">
+                                            <a
+                                                href={`https://testnets.opensea.io/assets/mumbai/${contractAddress}/${charInfo.id}`}
+                                                className="text-blue-500 hover:text-blue-700 text-lg"
+                                                target="_blank"
+                                                rel="noreferrer"
+                                            >
+                                                View on OpenSea
+                                            </a>
+                                            <p className="text-gray-500 text-sm mt-1">
+                                                Remember to click <strong>Refresh metadata</strong> if the info is not updating.
+                                            </p>
+                                        </div>
                                     </div>
                                     <div className="w-full mt-6 md:mt-3 md:w-1/2 md:m-3 rounded-xl overflow-hidden flex flex-col justify-between">
                                         <div className="border-t md:border-t-0 pt-4 md:pt-0">
@@ -269,12 +276,12 @@ export default function Week3Component() {
                                             <p className="text-gray-400 text-center text-lg mt-1">This is your character! Let&apos;s train it!</p>
                                         </div>
                                         <ul className="my-8 md:my-0">
-                                            <li className="text-3xl text-center my-2 font-bold text-cyan-400">Level = {charInfo.level}</li>
-                                            <li className="text-3xl text-center my-2 font-bold text-orange-300">Speed = {charInfo.speed}</li>
-                                            <li className="text-3xl text-center my-2 font-bold text-red-400">
+                                            <li className="text-xl text-center my-2 font-bold text-cyan-400">Level = {charInfo.level}</li>
+                                            <li className="text-xl text-center my-2 font-bold text-orange-300">Speed = {charInfo.speed}</li>
+                                            <li className="text-xl text-center my-2 font-bold text-red-400">
                                                 Strength = {charInfo.strength}
                                             </li>
-                                            <li className="text-3xl text-center my-2 font-bold text-green-400">Life = {charInfo.life}</li>
+                                            <li className="text-xl text-center my-2 font-bold text-green-400">Life = {charInfo.life}</li>
                                         </ul>
                                         <button
                                             className="text-xl bg-purple-700 text-white w-full py-3 shadow-lg rounded-xl hover:bg-purple-600 transition"
