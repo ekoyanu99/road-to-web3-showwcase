@@ -36,13 +36,13 @@ export default function Week1Component() {
         },
     });
 
-    useEffect(()=>{
+    useEffect(() => {
         checkIfWalletConnected();
-    },[address]);
+    }, [address]);
 
     const checkIfWalletConnected = async () => {
         try {
-            if(!isDisconnected){
+            if (!isDisconnected) {
                 setCurrentAccount(address);
             } else {
                 setCurrentAccount(null);
@@ -63,7 +63,7 @@ export default function Week1Component() {
             const mintTx = await alchemyContract.safeMint(currentAccount, "https://ipfs.filebase.io/ipfs/QmT3GBmBEq5Lk5CJjinryw1nLfbsFMFxX4q9tnCx9dELL2");
             console.log(mintTx);
             await mintTx.wait();
-            
+
         } catch (error) {
             console.error(error);
             seterrorMessage(error.reason);
@@ -102,17 +102,17 @@ export default function Week1Component() {
                 />
 
                 {isDisconnected ? (
-                <div className="text-center mt-12">
-                    <h3 className="text-white text-xl">
-                        Connect Your Wallet
-                    </h3>
-                </div>
-                ):(
+                    <div className="text-center mt-12">
+                        <h3 className="text-white text-xl">
+                            Connect Your Wallet
+                        </h3>
+                    </div>
+                ) : (
                     <div className="flex flex-col items-center text-center mt-12">
-                        <button 
+                        <button
                             className="py-2 px-5 mt-6 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white text-2xl"
                             onClick={mint}
-                            disabled={isMinting}    
+                            disabled={isMinting}
                         >
                             {isMinting ? "Minting..." : "Mint 🔥"}
                         </button>

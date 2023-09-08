@@ -26,10 +26,9 @@ export default function Week2Component() {
     const [memos, setMemos] = useState([]);
     const [isLoading, setisLoading] = useState(false);
     const [isWithdrawing, setisWithdrawing] = useState(false);
-    const [isSettingNewRecipient, setisSettingNewRecipient] = useState(false);
     const [errorMessage, seterrorMessage] = useState(null);
+
     const [coffeeSize, setcoffeeSize] = useState("S");
-    const [recipient, setrecipient] = useState("");
     const [contractBalance, setcontractBalance] = useState(0);
 
     const { address, isDisconnected } = useAccount({
@@ -45,7 +44,6 @@ export default function Week2Component() {
 
     useEffect(() => {
         if (signer) {
-            // fetchRecipient();
             fetchContractBalance();
             fetchMessage();
         }
@@ -126,7 +124,7 @@ export default function Week2Component() {
         try {
 
             const buyMeCofeeContract = new Contract(contractAddress, contractABI, signer);
-            const withdrawTx = await buyMeCofeeContract.withdraw();
+            const withdrawTx = await buyMeCofeeContract.withdrawTips();
 
             await withdrawTx.wait();
             console.log(withdrawTx);
@@ -135,7 +133,7 @@ export default function Week2Component() {
 
         } catch (error) {
             console.error(error);
-            seterrorMessage(error.message);
+            seterrorWithdrawMessage(error.message);
         } finally {
             setisWithdrawing(false);
         }
@@ -147,10 +145,22 @@ export default function Week2Component() {
 
     const fetchContractBalance = async () => {
         try {
-            const buyMeCofeeContract = new Contract(contractAddress, contractABI, signer);
-            const balance = await signer.getBalance(buyMeCofeeContract.address);
+
+            const { ethereum } = window;
+
+            const provider = new ethers.providers.Web3Provider(ethereum);
+            const contract = new ethers.Contract(contractAddress, contractABI, provider);
+
+            const balance = await provider.getBalance(contract.address);
 
             setcontractBalance(ethers.utils.formatEther(balance));
+
+            // const buyMeCofeeContract = new Contract(contractAddress, contractABI, signer);
+            // const balance = await signer.getBalance(buyMeCofeeContract.address);
+
+            // console.log("ini balance ", balance);
+
+            // setcontractBalance(ethers.utils.formatEther(balance));
         } catch (error) {
             console.error(error);
             seterrorMessage(error.message);
@@ -210,76 +220,177 @@ export default function Week2Component() {
 
                 <div className="flex w-full justify-center items-center">
                     {!isDisconnected ? (
-                        <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
-                            <form>
-                                <div>
-                                    <ul className="flex justify-center items-center">
-                                        <li
-                                            onClick={() => changeCoffeeSize("S")}
-                                            className={`text-3xl w-16 h-16 flex justify-center items-center cursor-pointer rounded-md m-2 ${coffeeSize === "S" ? "bg-yellow-800 ring-4 ring-yellow-600" : "bg-yellow-300"
-                                                }`}
+                        // <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
+                        //     <form>
+                        //         <div>
+                        //             <ul className="flex justify-center items-center">
+                        //                 <li
+                        //                     onClick={() => changeCoffeeSize("S")}
+                        //                     className={`text-3xl w-16 h-16 flex justify-center items-center cursor-pointer rounded-md m-2 ${coffeeSize === "S" ? "bg-yellow-800 ring-4 ring-yellow-600" : "bg-yellow-300"
+                        //                         }`}
+                        //                 >
+                        //                     ☕️
+                        //                 </li>
+                        //                 <li
+                        //                     onClick={() => changeCoffeeSize("L")}
+                        //                     className={`text-5xl w-16 h-16 flex justify-center items-center cursor-pointer rounded-md m-2 ${coffeeSize === "L" ? "bg-yellow-800 ring-4 ring-yellow-600" : "bg-yellow-300"
+                        //                         }`}
+                        //                 >
+                        //                     ☕️
+                        //                 </li>
+                        //             </ul>
+                        //             <h5 className="text-center p-2 text-xl italic text-yellow-700 mt-6">Price</h5>
+                        //             <div className="text-center text-3xl text-yellow-800">
+                        //                 {coffeeSize === "S" ? "0.001" : "0.003"} ETH
+                        //             </div>
+                        //             <label className="text-center p-2 text-xl italic text-yellow-700 mt-6">
+                        //                 Name
+                        //             </label>
+                        //             <br />
+
+                        //             <input
+                        //                 id="name"
+                        //                 type="text"
+                        //                 placeholder="anon"
+                        //                 onChange={onNameChange}
+                        //                 className="w-full bg-white border-yellow-400 p-2 rounded-md mt-2"
+                        //             />
+                        //         </div>
+                        //         <br />
+                        //         <div>
+                        //             <label className="text-center p-2 text-xl italic text-yellow-700 mt-6">
+                        //                 Send a message
+                        //             </label>
+                        //             <br />
+
+                        //             <textarea
+                        //                 rows={3}
+                        //                 placeholder="Enjoy your coffee!"
+                        //                 id="message"
+                        //                 onChange={onMessageChange}
+                        //                 className="w-full bg-white border-yellow-400 p-2 rounded-md mt-2"
+                        //                 required
+                        //             >
+                        //             </textarea>
+                        //         </div>
+                        //         <div className="flex flex-col items-center text-center">
+                        //             <button
+                        //                 type="button"
+                        //                 onClick={buyCoffee}
+                        //                 className="py-2 px-5 mt-3 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white"
+                        //             >
+                        //                 Send 1 Coffee for 0.001 ETH
+                        //             </button>
+                        //             <button
+                        //                 type="button"
+                        //                 onClick={buyCoffee}
+                        //                 className="py-2 px-5 mt-3 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white"
+                        //             >
+                        //                 Send 1 Large Coffee for 0.003 ETH
+                        //             </button>
+                        //         </div>
+                        //     </form>
+                        // </div>
+                        <div className="flex flex-wrap md:flex-nowrap mt-16">
+                            <div className="self-start w-full md:w-1/2 md:m-3">
+                                <div className="self-start w-full bg-yellow-100 rounded-xl overflow-hidden">
+                                    <h4 className="text-2xl text-center bg-yellow-700 p-2 text-white">Buy Me a Coffee</h4>
+                                    <div className="p-4">
+                                        <h5 className="text-center p-2 text-xl italic text-yellow-700">Coffee Size</h5>
+                                        <ul className="flex justify-center items-center">
+                                            <li
+                                                onClick={() => changeCoffeeSize("S")}
+                                                className={`text-3xl w-16 h-16 flex justify-center items-center cursor-pointer rounded-md m-2 ${coffeeSize === "S" ? "bg-yellow-800 ring-4 ring-yellow-600" : "bg-yellow-300"
+                                                    }`}
+                                            >
+                                                ☕️
+                                            </li>
+                                            <li
+                                                onClick={() => changeCoffeeSize("L")}
+                                                className={`text-5xl w-16 h-16 flex justify-center items-center cursor-pointer rounded-md m-2 ${coffeeSize === "L" ? "bg-yellow-800 ring-4 ring-yellow-600" : "bg-yellow-300"
+                                                    }`}
+                                            >
+                                                ☕️
+                                            </li>
+                                        </ul>
+                                        <h5 className="text-center p-2 text-xl italic text-yellow-700 mt-6">Price</h5>
+                                        <div className="text-center text-3xl text-yellow-800">
+                                            {coffeeSize === "S" ? "0.001" : "0.003"} ETH
+                                        </div>
+                                        <h5 className="text-center p-2 text-xl italic text-yellow-700 mt-6">Leave a message</h5>
+                                        <div>
+                                            <input
+                                                type="text"
+                                                onChange={onNameChange}
+                                                value={name}
+                                                className="w-full bg-white border border-yellow-500 p-2 rounded-md mt-2"
+                                                placeholder="Your name"
+                                                disabled={isLoading}
+                                            />
+                                            <input
+                                                type="text"
+                                                onChange={onMessageChange}
+                                                value={message}
+                                                className="w-full bg-white border border-yellow-500 p-2 rounded-md mt-2"
+                                                placeholder="Your message"
+                                                disabled={isLoading}
+                                            />
+                                        </div>
+                                        <button
+                                            onClick={buyCoffee}
+                                            disabled={isLoading}
+                                            className="py-2 px-5 mt-6 mb-2 pb-3 w-full bg-yellow-900 hover:bg-yellow-800 shadow rounded-full text-white text-2xl"
                                         >
-                                            ☕️
-                                        </li>
-                                        <li
-                                            onClick={() => changeCoffeeSize("L")}
-                                            className={`text-5xl w-16 h-16 flex justify-center items-center cursor-pointer rounded-md m-2 ${coffeeSize === "L" ? "bg-yellow-800 ring-4 ring-yellow-600" : "bg-yellow-300"
-                                                }`}
-                                        >
-                                            ☕️
-                                        </li>
-                                    </ul>
-                                    <h5 className="text-center p-2 text-xl italic text-yellow-700 mt-6">Price</h5>
-                                    <div className="text-center text-3xl text-yellow-800">
-                                        {coffeeSize === "S" ? "0.001" : "0.003"} ETH
+                                            {isLoading ? (
+                                                loadingIcon()
+                                            ) : (
+                                                <>
+                                                    Buy <span className="text-3xl">☕️</span>
+                                                </>
+                                            )}
+                                        </button>
                                     </div>
-                                    <label className="text-center p-2 text-xl italic text-yellow-700 mt-6">
-                                        Name
-                                    </label>
-                                    <br />
+                                </div>
+                                <div className="self-start w-full mt-6 bg-yellow-100 rounded-xl overflow-hidden">
+                                    <h4 className="text-2xl text-center bg-yellow-700 p-2 text-white">Coffee Wallet Info</h4>
+                                    <div className="p-4 pb-8">
+                                        <h5 className="text-center p-2 text-xl italic text-yellow-700">Balance</h5>
+                                        <div className="text-center text-3xl text-yellow-800">{contractBalance} ETH</div>
 
-                                    <input
-                                        id="name"
-                                        type="text"
-                                        placeholder="anon"
-                                        onChange={onNameChange}
-                                        className="w-full bg-white border-yellow-400 p-2 rounded-md mt-2"
-                                    />
-                                </div>
-                                <br />
-                                <div>
-                                    <label className="text-center p-2 text-xl italic text-yellow-700 mt-6">
-                                        Send a message
-                                    </label>
-                                    <br />
+                                        <button
+                                            onClick={withdraw}
+                                            disabled={isWithdrawing}
+                                            className="py-2 px-5 mt-8 mb-2 pb-3 w-full bg-yellow-600 hover:bg-yellow-700 shadow rounded-full text-white text-2xl"
+                                        >
+                                            {isWithdrawing ? (
+                                                loadingIcon()
+                                            ) : (
+                                                <>
+                                                    Withdraw <span className="text-3xl">💸</span>
+                                                </>
+                                            )}
+                                        </button>
 
-                                    <textarea
-                                        rows={3}
-                                        placeholder="Enjoy your coffee!"
-                                        id="message"
-                                        onChange={onMessageChange}
-                                        className="w-full bg-white border-yellow-400 p-2 rounded-md mt-2"
-                                        required
-                                    >
-                                    </textarea>
+                                        <p className="px-4 py-2 text-gray-500">
+                                            Anyone can withdraw the funds, but it will only send to deployer.
+                                        </p>
+                                    </div>
                                 </div>
-                                <div className="flex flex-col items-center text-center">
-                                    <button
-                                        type="button"
-                                        onClick={buyCoffee}
-                                        className="py-2 px-5 mt-3 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white"
-                                    >
-                                        Send 1 Coffee for 0.001 ETH
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={buyCoffee}
-                                        className="py-2 px-5 mt-3 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white"
-                                    >
-                                        Send 1 Large Coffee for 0.003 ETH
-                                    </button>
+                            </div>
+                            <div className="self-start w-full mt-6 md:mt-3 md:w-1/2 md:m-3 bg-yellow-100 rounded-xl overflow-hidden">
+                                <h4 className="text-2xl text-center bg-yellow-700 p-2 text-white">Messages</h4>
+                                <div className="p-4">
+                                    {memos.map((memo, index) => (
+                                        <div key={index} className="bg-white p-4 rounded mb-2">
+                                            <span className="text-yellow-600">
+                                                {memo.name} @ {new Date(memo.timestamp.toNumber() * 1000).toLocaleDateString()}{" "}
+                                                {new Date(memo.timestamp.toNumber() * 1000).toLocaleTimeString()}
+                                            </span>
+                                            <p className="text-gray-600">{memo.message}</p>
+                                        </div>
+                                    ))}
                                 </div>
-                            </form>
+                            </div>
                         </div>
                     ) : (
                         <div className="text-center mt-12">
@@ -288,7 +399,7 @@ export default function Week2Component() {
                             </h3>
                         </div>
                     )}
-                    <div className="w-full mt-6 md:mt-3 md:w-1/2 md:m-3 bg-yellow-100 rounded-xl overflow-hidden">
+                    {/* <div className="w-full mt-6 md:mt-3 md:w-1/2 md:m-3 bg-yellow-100 rounded-xl overflow-hidden">
                         <h4 className="text-2xl text-center bg-yellow-700 p-2 text-white">Messages</h4>
                         <div className="p-4">
                             {(memos.map((memo, idx) => {
@@ -302,7 +413,7 @@ export default function Week2Component() {
                                 )
                             }))}
                         </div>
-                    </div>
+                    </div> */}
                 </div>
 
             </main>

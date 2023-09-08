@@ -2,7 +2,7 @@ const follow = ["border-b-4 border-slate-300 inline-block mx-4 my-2 text-xl hove
 
 export default function Footer() {
   return (
-    <div className="text-center py-4">
+    <div className="text-center py-4 p-4">
       <div>
         <a href="https://twitter.com/AlchemyLearn" target={"_blank"} rel={"noreferrer"} className={follow}>
           Follow @AlchemyLearn
