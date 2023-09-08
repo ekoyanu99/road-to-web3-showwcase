@@ -248,7 +248,7 @@ export default function Week3Component() {
                 }
 
                 {isInitialized && currentAccount && ownedChar && (
-                    <div className="flex w-full justify-center items-center flex-wrap md:flex-nowrap mt-16 p-4 bg-white rounded-xl shadow-lg">
+                    <div className="flex w-full justify-center items-center flex-wrap md:flex-nowrap mt-16 p-4 bg-white rounded-xl shadow-md">
                         <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
                             {ownedCharSvg && (
                                 <>

@@ -30,10 +30,14 @@ const wagmiClient = createClient({
 	provider,
 });
 
-export { WagmiConfig, RainbowKitProvider };
+import { ApolloProvider } from "@apollo/client";
+import client from "../apollo-client";
+
+export { WagmiConfig, RainbowKitProvider, ApolloProvider };
 function MyApp({ Component, pageProps }) {
 	return (
 		<WagmiConfig client={wagmiClient}>
+			<ApolloProvider client={client}>
 			<RainbowKitProvider
 				modalSize="compact"
 				initialChain={process.env.NEXT_PUBLIC_DEFAULT_CHAIN}
@@ -43,6 +47,7 @@ function MyApp({ Component, pageProps }) {
 					<Component {...pageProps} />
 				</MainLayout>
 			</RainbowKitProvider>
+			</ApolloProvider>
 		</WagmiConfig>
 	);
 }
