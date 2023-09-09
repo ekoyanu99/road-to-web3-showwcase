@@ -2,18 +2,18 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import { useAccount, useSigner, useSignMessage, useNetwork, useSwitchNetwork } from "wagmi";
 import { Contract, ethers } from "ethers";
-const Alchemy_ABI = require("../../../utils/Alchemy.json");
+const BullnBear_ABI = require("../../../utils/BullnBear.json");
 import styles from "../../../styles/Home.module.css";
 import {
     goerli,
 } from "wagmi/chains";
 import Image from "next/image";
 
-export default function Week1Component() {
+export default function Week5Component() {
 
     // Contract Address & ABI
-    const contractAddress = "0xF3B59e1ce0Ce472daA264894F2372AaAAC25F411";
-    const contractABI = Alchemy_ABI;
+    const contractAddress = "0x04C8666F5C009AE56115CD851f08782F3710Dc54";
+    const contractABI = BullnBear_ABI;
 
     const [isMounted, setIsMounted] = useState(false);
     // Get the signer instance for the connected wallet
@@ -56,11 +56,11 @@ export default function Week1Component() {
     const mint = async () => {
         setisMinting(true);
 
-        const alchemyContract = new Contract(contractAddress, contractABI, signer);
+        const bullnbearContract = new Contract(contractAddress, contractABI, signer);
 
         try {
 
-            const mintTx = await alchemyContract.safeMint(currentAccount, "https://ipfs.filebase.io/ipfs/QmT3GBmBEq5Lk5CJjinryw1nLfbsFMFxX4q9tnCx9dELL2");
+            const mintTx = await bullnbearContract.safeMint(currentAccount, "https://ipfs.io/ipfs/QmRJVFeMrtYS2CUVUM2cHJpBV5aX2xurpnsfZxLTTQbiD3?filename=party_bull.json");
             console.log(mintTx);
             await mintTx.wait();
 
@@ -75,42 +75,47 @@ export default function Week1Component() {
     return (
         <div className="min-h-screen">
             <Head>
-                <title>Road to Web3 - Week 1</title>
+                <title>Road to Web3 - Week 5</title>
                 <meta name="description" content="Tipping site" />
             </Head>
 
             <main className="max-w-6xl mx-auto px-6 py-12 md:p-10">
-                <h1 className="text-5xl font-bold text-center text-yellow-900">Road to Web3 - Week 1 [Goerli]</h1>
-                <p className="text-center mt-4 text-lg max-w-xl mx-auto text-yellow-700">
-                    This is a practice project to learn Web3.js and solidity. First week is to develop a &quot;ERC721&quot; smart contract.
+                <h1 className="text-5xl font-bold text-center text-purple-800">Road to Web3 - Week 5 [Sepolia]</h1>
+                <p className="text-center mt-4 text-lg max-w-xl mx-auto text-gray-700">
+                    This is a practice project to learn ethers.js and solidity. The fifth week is to develop a dynamic NFT smart
+                    contract which will change based on the price of ETH/USD, using{" "}
+                    <span className="bg-gray-200 font-mono inline-block px-1 rounded ring-1 ring-purple-600">
+                        Chainlink VRF and Keeper
+                    </span>
+                    .
                     <br />
                     <a
-                        href="https://docs.alchemy.com/docs/how-to-develop-an-nft-smart-contract-erc721-with-alchemy"
+                        href="https://docs.alchemy.com/docs/connect-apis-to-your-smart-contracts-using-chainlink#mocking-live-net-smart-contracts"
                         target="_blank"
                         rel="noreferrer"
-                        className="inline-block bg-yellow-500 rounded-md text-white mt-2 p-1 px-2 hover:bg-yellow-600"
+                        className="inline-block bg-purple-500 rounded-md text-white mt-2 p-1 px-2 hover:bg-purple-600"
                     >
                         ➡️ Amazing tutorial here
                     </a>
                 </p>
 
                 <Image
-                    src="/eunha.webp"
+                    src="/BullnBear.gif"
                     alt="Road to Web3"
-                    className="mt-12 w-full max-w-md block mx-auto rounded-lg ring-4 shadow-lg ring-white"
+                    className="mt-12 w-full max-w-md block mx-auto rounded-lg ring-4 shadow-lg ring-purple-200"
                     width={500} height={500}
                 />
 
                 {isDisconnected ? (
                     <div className="text-center mt-12">
-                        <h3 className="text-white text-xl">
+                        <h3 className="text-purple-800 text-xl">
                             Connect Your Wallet
                         </h3>
                     </div>
                 ) : (
                     <div className="flex flex-col items-center text-center mt-12">
                         <button
-                            className="py-2 px-5 mt-6 mb-2 pb-3 bg-yellow-900 hover:bg-yellow-800 shadow rounded text-white text-2xl"
+                            className="py-2 px-5 mt-6 mb-2 pb-3 bg-purple-800 hover:bg-purple-700 shadow rounded text-white text-2xl"
                             onClick={mint}
                             disabled={isMinting}
                         >

@@ -6,6 +6,7 @@ import { configureChains, createClient, WagmiConfig } from "wagmi";
 import {
 	goerli,
 	polygonMumbai,
+	sepolia
 } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import MainLayout from "../layout/mainLayout";
@@ -14,6 +15,7 @@ const { chains, provider } = configureChains(
 	[
 		goerli,
 		polygonMumbai,
+		sepolia
 	],
 	[publicProvider({ apiKey: process.env.ALCHEMY_API_KEY }), publicProvider()]
 );
