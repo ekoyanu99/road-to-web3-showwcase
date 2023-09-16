@@ -19,9 +19,7 @@ export default function Week1Component() {
     // Get the signer instance for the connected wallet
     const { data: signer } = useSigner();
     const { chain } = useNetwork();
-    const network = useSwitchNetwork({
-        chainId: 5,
-    })
+    const { switchNetwork } = useSwitchNetwork();
     // State hooks to track the transaction hash and whether or not the NFT is being minted
     // Component state
     const [currentAccount, setCurrentAccount] = useState(null);
@@ -31,7 +29,6 @@ export default function Week1Component() {
 
     const { address, isDisconnected } = useAccount({
         onDisconnect() {
-            reset();
             setCurrentAccount(null);
         },
     });
@@ -43,11 +40,15 @@ export default function Week1Component() {
     const checkIfWalletConnected = async () => {
         try {
             if (!isDisconnected) {
-                setCurrentAccount(address);
+                if(chain.name === "Goerli") {
+                    setCurrentAccount(address);
+                } else {
+                    switchNetwork(5);
+                    setCurrentAccount(address);
+                }
             } else {
                 setCurrentAccount(null);
             }
-            console.log(currentAccount);
         } catch (error) {
             console.error(error);
         }
@@ -61,7 +62,6 @@ export default function Week1Component() {
         try {
 
             const mintTx = await alchemyContract.safeMint(currentAccount, "https://ipfs.filebase.io/ipfs/QmT3GBmBEq5Lk5CJjinryw1nLfbsFMFxX4q9tnCx9dELL2");
-            console.log(mintTx);
             await mintTx.wait();
 
         } catch (error) {

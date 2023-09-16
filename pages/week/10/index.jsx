@@ -109,13 +109,11 @@ export default function Week10Component() {
 
     const { address, isDisconnected } = useAccount({
         onDisconnect() {
-            reset();
             setCurrentAccount(null);
         },
     });
 
     const { loading, error, data } = useQuery(Profile);
-    // console.log("ini datanya", data);
 
     useEffect(() => {
         checkIfWalletConnected();
@@ -132,7 +130,6 @@ export default function Week10Component() {
             } else {
                 setCurrentAccount(null);
             }
-            console.log(currentAccount);
         } catch (error) {
             console.error(error);
         }
@@ -159,7 +156,6 @@ export default function Week10Component() {
             setisLoading(true);
             if (data) {
                 setprofile(data.profile);
-                console.log("data fetched ", data);
 
                 setcoverProfile(data.profile.coverPicture.original.url);
                 setimageProfile(data.profile.picture.original.url);
@@ -168,7 +164,7 @@ export default function Week10Component() {
             }
             setisLoading(false);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 

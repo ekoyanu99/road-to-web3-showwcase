@@ -50,7 +50,6 @@ export default function Week4Component() {
 
     const { address, isDisconnected } = useAccount({
         onDisconnect() {
-            reset();
             setCurrentAccount(null);
         },
     });

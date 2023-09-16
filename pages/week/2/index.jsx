@@ -14,9 +14,7 @@ export default function Week2Component() {
     // Get the signer instance for the connected wallet
     const { data: signer } = useSigner();
     const { chain } = useNetwork();
-    const network = useSwitchNetwork({
-        chainId: 5,
-    })
+    const { switchNetwork } = useSwitchNetwork();
     // State hooks to track the transaction hash and whether or not the NFT is being minted
     // Component state
     const [currentAccount, setCurrentAccount] = useState("");
@@ -27,13 +25,13 @@ export default function Week2Component() {
     const [isLoading, setisLoading] = useState(false);
     const [isWithdrawing, setisWithdrawing] = useState(false);
     const [errorMessage, seterrorMessage] = useState(null);
+    const [errorWithdrawMessage, seterrorWithdrawMessage] = useState(null);
 
     const [coffeeSize, setcoffeeSize] = useState("S");
     const [contractBalance, setcontractBalance] = useState(0);
 
     const { address, isDisconnected } = useAccount({
         onDisconnect() {
-            reset();
             setCurrentAccount(null);
         },
     });
@@ -65,19 +63,8 @@ export default function Week2Component() {
             } else {
                 setCurrentAccount(null);
             }
-            console.log(currentAccount);
         } catch (error) {
-            console.log("error: ", error);
-        }
-    }
-
-    const ensureOnNetwork = async () => {
-        try {
-            if (currentChain != 5) {
-
-            }
-        } catch (error) {
-            console.log("error: ", error);
+            console.error(error);
         }
     }
 
@@ -87,7 +74,6 @@ export default function Week2Component() {
         seterrorMessage(null);
 
         const buyMeCofeeContract = new Contract(contractAddress, contractABI, signer);
-        console.log("buy Me Coffee Contract", buyMeCofeeContract);
 
         const amount = coffeeSize === "S" ? ethers.utils.parseEther("0.001") : ethers.utils.parseEther("0.003");
 
@@ -99,7 +85,6 @@ export default function Week2Component() {
             );
 
             await coffeeTx.wait();
-            console.log(coffeeTx);
 
             console.log("mined ", coffeeTx.hash);
 
@@ -146,21 +131,20 @@ export default function Week2Component() {
     const fetchContractBalance = async () => {
         try {
 
-            const { ethereum } = window;
+            if(chain.name === "Goerli") {
+                const { ethereum } = window;
+    
+                const provider = new ethers.providers.Web3Provider(ethereum);
+                const contract = new ethers.Contract(contractAddress, contractABI, provider);
+    
+                const balance = await provider.getBalance(contract.address);
+    
+                setcontractBalance(ethers.utils.formatEther(balance));
+            } else {
+                console.log("Please change network to goerli");
+                switchNetwork(5);
+            }
 
-            const provider = new ethers.providers.Web3Provider(ethereum);
-            const contract = new ethers.Contract(contractAddress, contractABI, provider);
-
-            const balance = await provider.getBalance(contract.address);
-
-            setcontractBalance(ethers.utils.formatEther(balance));
-
-            // const buyMeCofeeContract = new Contract(contractAddress, contractABI, signer);
-            // const balance = await signer.getBalance(buyMeCofeeContract.address);
-
-            // console.log("ini balance ", balance);
-
-            // setcontractBalance(ethers.utils.formatEther(balance));
         } catch (error) {
             console.error(error);
             seterrorMessage(error.message);
@@ -175,7 +159,7 @@ export default function Week2Component() {
             console.log("fetched!");
             setMemos(memos);
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     };
 

@@ -20,9 +20,7 @@ export default function Week3Component() {
     // Get the signer instance for the connected wallet
     const { data: signer } = useSigner();
     const { chain } = useNetwork();
-    const network = useSwitchNetwork({
-        chainId: 5,
-    })
+    const { switchNetwork } = useSwitchNetwork();
     // State hooks to track the transaction hash and whether or not the NFT is being minted
     // Component state
     const [currentAccount, setCurrentAccount] = useState(null);
@@ -39,7 +37,6 @@ export default function Week3Component() {
 
     const { address, isDisconnected } = useAccount({
         onDisconnect() {
-            reset();
             setCurrentAccount(null);
         },
     });
@@ -61,7 +58,6 @@ export default function Week3Component() {
             } else {
                 setCurrentAccount(null);
             }
-            console.log(currentAccount);
         } catch (error) {
             console.error(error);
         }
@@ -69,30 +65,26 @@ export default function Week3Component() {
 
     const fetchCharNFT = async () => {
         try {
-
-            // use ethers
-            // const battleContract = new Contract(contractAddress, contractABI, signer);
-            // const checkBalance = await battleContract.balanceOf(currentAccount);
-            // console.log("Holding", (checkBalance).toNumber());
-
-            // Optional Config object, but defaults to demo api-key and eth-mainnet.
-            const settings = {
-                apiKey: "pZtMYFAth5mw1UecE_l_TZucPxFMYnzF", // Replace with your Alchemy API Key.
-                network: Network.MATIC_MUMBAI, // Replace with your network.
-            };
-
-            const alchemy = new Alchemy(settings);
-
-            const nfts = await alchemy.nft.getNftsForOwner(address, { contractAddresses: [contractAddress], });
-
-            console.log("ini dari fetchCharNFT", nfts);
-
-            if (nfts.ownedNfts.length > 0) {
-                setownedChar(nfts.ownedNfts[0]);
-                console.log("ini nfts value", nfts.ownedNfts[0].tokenId);
-                await fetchCharInfo(Number(nfts.ownedNfts[0].tokenId));
+            if(chain.name === "Polygon Mumbai") {
+                const settings = {
+                    apiKey: process.env.ALCHEMY_MUMBAI_API_KEY, 
+                    network: Network.MATIC_MUMBAI,
+                };
+    
+                const alchemy = new Alchemy(settings);
+    
+                const nfts = await alchemy.nft.getNftsForOwner(address, { contractAddresses: [contractAddress], });
+    
+                if (nfts.ownedNfts.length > 0) {
+                    setownedChar(nfts.ownedNfts[0]);
+                    await fetchCharInfo(Number(nfts.ownedNfts[0].tokenId));
+                }
+                setisInitialized(true);
+            } else {
+                console.log("Please change network to mumbai");
+                switchNetwork(80001);
             }
-            setisInitialized(true);
+
         } catch (error) {
             console.error(error);
             seterrorMessage(error);
@@ -105,7 +97,8 @@ export default function Week3Component() {
         setisMinting(true);
 
         if (charName === "") {
-            console.log("Please enter a character name");
+            alert("Please enter a character name");
+            setisMinting(false);
             return;
         }
 
@@ -113,7 +106,6 @@ export default function Week3Component() {
 
             const battleContract = new Contract(contractAddress, contractABI, signer);
             const mintTx = await battleContract.mint(charName);
-            console.log(mintTx);
             await mintTx.wait();
 
             // fetch char nft here
@@ -134,7 +126,6 @@ export default function Week3Component() {
 
             const battleContract = new Contract(contractAddress, contractABI, signer);
             const trainTx = await battleContract.train(charInfo.id);
-            console.log(trainTx);
             await trainTx.wait();
 
             // fetch char nft here
@@ -170,8 +161,6 @@ export default function Week3Component() {
                     strength: strengthInt,
                     life: lifeInt,
                 });
-
-                console.log("ini dari fetchCharInfo", charInfo);
 
                 resolve();
             } catch (error) {
@@ -221,7 +210,7 @@ export default function Week3Component() {
                 </p>
 
                 {isInitialized && currentAccount && !ownedChar && (
-                    <div className="flex flex-wrap justify-center items-center md:flex-nowrap mt-16 p-8 py-12 bg-white rounded-xl shadow-lg">
+                    <div className="flex flex-wrap justify-center items-center md:flex-nowrap mt-16 p-8 py-12 bg-stone-100 rounded-xl shadow-lg">
                         <div className="self-start w-full md:w-1/2">
                             <h2 className="text-2xl font-bold text-center text-purple-600">Mint Your Character!</h2>
                             <p className="text-gray-400 text-center text-lg mt-1">Let&apos;s create your character first!</p>
@@ -248,7 +237,7 @@ export default function Week3Component() {
                 }
 
                 {isInitialized && currentAccount && ownedChar && (
-                    <div className="flex w-full justify-center items-center flex-wrap md:flex-nowrap mt-16 p-4 bg-white rounded-xl shadow-md">
+                    <div className="flex w-full justify-center items-center flex-wrap md:flex-nowrap mt-16 p-4 bg-stone-100 rounded-xl shadow-md">
                         <div className="flex mf:flex-row flex-col items-start justify-between md:p-20 py-12 px-4">
                             {ownedCharSvg && (
                                 <>

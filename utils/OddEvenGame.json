@@ -1,0 +1,322 @@
+[
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_gameCost",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_maxWaitingTime",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "_judgeRewardPercentage",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "nonpayable",
+        "type": "constructor"
+    },
+    {
+        "inputs": [],
+        "name": "gameCost",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "name": "games",
+        "outputs": [
+            {
+                "internalType": "enum OddEvenGame.GameStatus",
+                "name": "status",
+                "type": "uint8"
+            },
+            {
+                "internalType": "address payable",
+                "name": "playerOdd",
+                "type": "address"
+            },
+            {
+                "internalType": "address payable",
+                "name": "playerEven",
+                "type": "address"
+            },
+            {
+                "internalType": "address payable",
+                "name": "judge",
+                "type": "address"
+            },
+            {
+                "internalType": "uint256",
+                "name": "cost",
+                "type": "uint256"
+            },
+            {
+                "internalType": "string",
+                "name": "magicWordOdd",
+                "type": "string"
+            },
+            {
+                "internalType": "bytes32",
+                "name": "hashOdd",
+                "type": "bytes32"
+            },
+            {
+                "internalType": "string",
+                "name": "magicWordEven",
+                "type": "string"
+            },
+            {
+                "internalType": "uint256",
+                "name": "totalLength",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "startTime",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "playerEvenJoinedTime",
+                "type": "uint256"
+            },
+            {
+                "internalType": "uint256",
+                "name": "endTime",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getGames",
+        "outputs": [
+            {
+                "components": [
+                    {
+                        "internalType": "enum OddEvenGame.GameStatus",
+                        "name": "status",
+                        "type": "uint8"
+                    },
+                    {
+                        "internalType": "address payable",
+                        "name": "playerOdd",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address payable",
+                        "name": "playerEven",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "address payable",
+                        "name": "judge",
+                        "type": "address"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "cost",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "magicWordOdd",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "bytes32",
+                        "name": "hashOdd",
+                        "type": "bytes32"
+                    },
+                    {
+                        "internalType": "string",
+                        "name": "magicWordEven",
+                        "type": "string"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "totalLength",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "startTime",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "playerEvenJoinedTime",
+                        "type": "uint256"
+                    },
+                    {
+                        "internalType": "uint256",
+                        "name": "endTime",
+                        "type": "uint256"
+                    }
+                ],
+                "internalType": "struct OddEvenGame.Game[]",
+                "name": "",
+                "type": "tuple[]"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "getLastGameIndex",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_magicWord",
+                "type": "string"
+            }
+        ],
+        "name": "joinGame",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "judge",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "judgeRewardPercentage",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "maxWaitingTime",
+        "outputs": [
+            {
+                "internalType": "uint256",
+                "name": "",
+                "type": "uint256"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [],
+        "name": "owner",
+        "outputs": [
+            {
+                "internalType": "address",
+                "name": "",
+                "type": "address"
+            }
+        ],
+        "stateMutability": "view",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "string",
+                "name": "_magicWord",
+                "type": "string"
+            }
+        ],
+        "name": "reveal",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_gameCost",
+                "type": "uint256"
+            }
+        ],
+        "name": "setGameCost",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_judgeRewardPercentage",
+                "type": "uint256"
+            }
+        ],
+        "name": "setJudgeRewardPercentage",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "uint256",
+                "name": "_maxWaitingTime",
+                "type": "uint256"
+            }
+        ],
+        "name": "setmaxWaitingTime",
+        "outputs": [],
+        "stateMutability": "nonpayable",
+        "type": "function"
+    },
+    {
+        "inputs": [
+            {
+                "internalType": "bytes32",
+                "name": "_hash",
+                "type": "bytes32"
+            }
+        ],
+        "name": "startGame",
+        "outputs": [],
+        "stateMutability": "payable",
+        "type": "function"
+    }
+]

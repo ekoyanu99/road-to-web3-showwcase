@@ -3,10 +3,6 @@ import { useState, useEffect } from "react";
 import { useAccount, useSigner, useSignMessage, useNetwork, useSwitchNetwork } from "wagmi";
 import { Contract, ethers } from "ethers";
 const BullnBear_ABI = require("../../../utils/BullnBear.json");
-import styles from "../../../styles/Home.module.css";
-import {
-    goerli,
-} from "wagmi/chains";
 import Image from "next/image";
 
 export default function Week5Component() {
@@ -15,23 +11,18 @@ export default function Week5Component() {
     const contractAddress = "0x04C8666F5C009AE56115CD851f08782F3710Dc54";
     const contractABI = BullnBear_ABI;
 
-    const [isMounted, setIsMounted] = useState(false);
     // Get the signer instance for the connected wallet
     const { data: signer } = useSigner();
     const { chain } = useNetwork();
-    const network = useSwitchNetwork({
-        chainId: 5,
-    })
+    const { switchNetwork } = useSwitchNetwork();
     // State hooks to track the transaction hash and whether or not the NFT is being minted
     // Component state
     const [currentAccount, setCurrentAccount] = useState(null);
-    const [currentChain, setcurrentChain] = useState(null);
     const [isMinting, setisMinting] = useState(false);
     const [errorMessage, seterrorMessage] = useState(null);
 
     const { address, isDisconnected } = useAccount({
         onDisconnect() {
-            reset();
             setCurrentAccount(null);
         },
     });
@@ -43,11 +34,16 @@ export default function Week5Component() {
     const checkIfWalletConnected = async () => {
         try {
             if (!isDisconnected) {
-                setCurrentAccount(address);
+                if(chain.id === 11155111) {
+                    setCurrentAccount(address);
+                } else {
+                    console.log("Please change network to sepolia");
+                    switchNetwork(11155111);
+                    setCurrentAccount(address);
+                }
             } else {
                 setCurrentAccount(null);
             }
-            console.log(currentAccount);
         } catch (error) {
             console.error(error);
         }
@@ -61,7 +57,6 @@ export default function Week5Component() {
         try {
 
             const mintTx = await bullnbearContract.safeMint(currentAccount, "https://ipfs.io/ipfs/QmRJVFeMrtYS2CUVUM2cHJpBV5aX2xurpnsfZxLTTQbiD3?filename=party_bull.json");
-            console.log(mintTx);
             await mintTx.wait();
 
         } catch (error) {

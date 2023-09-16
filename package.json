@@ -1,5 +1,5 @@
 {
-  "name": "my-nft-explorer",
+  "name": "road-to-web3",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -13,6 +13,7 @@
     "@apollo/client": "^3.8.3",
     "@rainbow-me/rainbowkit": "^0.12.4",
     "alchemy-sdk": "^2.6.2",
+    "antd": "^5.9.1",
     "graphql": "^16.8.0",
     "next": "13.1.2",
     "react": "18.2.0",
