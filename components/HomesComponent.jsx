@@ -26,7 +26,7 @@ export default function HomesComponent() {
         </p>
 
         <ul className="flex flex-wrap py-8">
-          {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((i) => (
+          {[1, 2, 3, 4, 5, 6, 8, 9, 10].map((i) => (
             <li className="w-full sm:w-1/2 lg:w-1/3 p-4" key={i}>
               <Link
                 href={`week/${i}`}

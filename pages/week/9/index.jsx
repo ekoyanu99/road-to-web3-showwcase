@@ -256,7 +256,7 @@ export default function Week9Component() {
 
             const tokenAllowance = await erc20Contract.allowance(account, spenderAddress);
 
-            let amount = tokenOneAmount * 10 ** tokenOne.decimals;
+            const amount = ethers.utils.parseUnits(tokenOneAmount.toString(), tokenOne.decimals);
 
             if (tokenAllowance.lt(amount)) {
                 const approveTx = await erc20Contract.approve(spenderAddress, amount);
